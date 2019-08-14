@@ -3,7 +3,6 @@ import { TourService, TourState, TourHotkeyListenerComponent, TourModule } from 
 import { Router } from '@angular/router';
 import { MatMenu, MatMenuTrigger, MatMenuModule, MatCardModule, MatButtonModule, MatIconModule } from '@angular/material';
 import { CommonModule } from '@angular/common';
-import withinviewport from 'withinviewport';
 import { first } from 'rxjs/operators';
 
 /**
@@ -213,12 +212,13 @@ class TourAnchorMatMenuDirective {
         this.tourStepTemplate.templateComponent.step = step;
         // Ignore step.placement
         if (!step.preventScrolling) {
-            if (!withinviewport(this.element.nativeElement, { sides: 'bottom' })) {
-                ((/** @type {?} */ (this.element.nativeElement))).scrollIntoView(false);
-            }
-            else if (!withinviewport(this.element.nativeElement, { sides: 'left top right' })) {
-                ((/** @type {?} */ (this.element.nativeElement))).scrollIntoView(true);
-            }
+            // if (!withinviewport(this.element.nativeElement, { sides: 'bottom' })) {
+            //   (<HTMLElement>this.element.nativeElement).scrollIntoView(false);
+            // } else if (
+            //   !withinviewport(this.element.nativeElement, { sides: 'left top right' })
+            // ) {
+            ((/** @type {?} */ (this.element.nativeElement))).scrollIntoView(true);
+            // }
         }
         ((/** @type {?} */ (this.opener.trigger)))._element = this.element;
         this.opener.trigger.menu = this.tourStepTemplate.templateComponent.tourStep;
