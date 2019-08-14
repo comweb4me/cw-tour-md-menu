@@ -1,8 +1,10 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('ngx-tour-core'), require('@angular/router'), require('@angular/material'), require('@angular/common'), require('rxjs/operators')) :
-    typeof define === 'function' && define.amd ? define('ngx-tour-md-menu', ['exports', '@angular/core', 'ngx-tour-core', '@angular/router', '@angular/material', '@angular/common', 'rxjs/operators'], factory) :
-    (global = global || self, factory(global['ngx-tour-md-menu'] = {}, global.ng.core, global.ngxTourCore, global.ng.router, global.ng.material, global.ng.common, global.rxjs.operators));
-}(this, function (exports, core, ngxTourCore, router, material, common, operators) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('ngx-tour-core'), require('@angular/router'), require('@angular/material'), require('@angular/common'), require('withinviewport'), require('rxjs/operators')) :
+    typeof define === 'function' && define.amd ? define('ngx-tour-md-menu', ['exports', '@angular/core', 'ngx-tour-core', '@angular/router', '@angular/material', '@angular/common', 'withinviewport', 'rxjs/operators'], factory) :
+    (global = global || self, factory(global['ngx-tour-md-menu'] = {}, global.ng.core, global.ngxTourCore, global.ng.router, global.ng.material, global.ng.common, global.withinviewport, global.rxjs.operators));
+}(this, function (exports, core, ngxTourCore, router, material, common, withinviewport, operators) { 'use strict';
+
+    withinviewport = withinviewport && withinviewport.hasOwnProperty('default') ? withinviewport['default'] : withinviewport;
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -439,13 +441,12 @@
             this.tourStepTemplate.templateComponent.step = step;
             // Ignore step.placement
             if (!step.preventScrolling) {
-                // if (!withinviewport(this.element.nativeElement, { sides: 'bottom' })) {
-                //   (<HTMLElement>this.element.nativeElement).scrollIntoView(false);
-                // } else if (
-                //   !withinviewport(this.element.nativeElement, { sides: 'left top right' })
-                // ) {
-                ((/** @type {?} */ (this.element.nativeElement))).scrollIntoView(true);
-                // }
+                if (!withinviewport(this.element.nativeElement, { sides: 'bottom' })) {
+                    ((/** @type {?} */ (this.element.nativeElement))).scrollIntoView(false);
+                }
+                else if (!withinviewport(this.element.nativeElement, { sides: 'left top right' })) {
+                    ((/** @type {?} */ (this.element.nativeElement))).scrollIntoView(true);
+                }
             }
             ((/** @type {?} */ (this.opener.trigger)))._element = this.element;
             this.opener.trigger.menu = this.tourStepTemplate.templateComponent.tourStep;
