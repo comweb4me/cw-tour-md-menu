@@ -5,7 +5,7 @@
   "author": "Isaac Mann <isaacplmann@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "withinviewport": "patik/within-viewport#0df98fb",
+    "withinviewport": "patik/within-viewport#0df98fb5",
     "tslib": "^1.9.0"
   },
   "peerDependencies": {
