@@ -1,10 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('ngx-tour-core'), require('@angular/router'), require('@angular/material'), require('@angular/common'), require('withinviewport'), require('rxjs/operators')) :
-    typeof define === 'function' && define.amd ? define('ngx-tour-md-menu', ['exports', '@angular/core', 'ngx-tour-core', '@angular/router', '@angular/material', '@angular/common', 'withinviewport', 'rxjs/operators'], factory) :
-    (global = global || self, factory(global['ngx-tour-md-menu'] = {}, global.ng.core, global.ngxTourCore, global.ng.router, global.ng.material, global.ng.common, global.withinviewport, global.rxjs.operators));
-}(this, function (exports, core, ngxTourCore, router, material, common, withinviewport, operators) { 'use strict';
-
-    withinviewport = withinviewport && withinviewport.hasOwnProperty('default') ? withinviewport['default'] : withinviewport;
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('ngx-tour-core'), require('@angular/router'), require('@angular/material'), require('@angular/common'), require('rxjs/operators')) :
+    typeof define === 'function' && define.amd ? define('ngx-tour-md-menu', ['exports', '@angular/core', 'ngx-tour-core', '@angular/router', '@angular/material', '@angular/common', 'rxjs/operators'], factory) :
+    (global = global || self, factory(global['ngx-tour-md-menu'] = {}, global.ng.core, global.ngxTourCore, global.ng.router, global.ng.material, global.ng.common, global.rxjs.operators));
+}(this, function (exports, core, ngxTourCore, router, material, common, operators) { 'use strict';
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -441,10 +439,10 @@
             this.tourStepTemplate.templateComponent.step = step;
             // Ignore step.placement
             if (!step.preventScrolling) {
-                if (!withinviewport(this.element.nativeElement, { sides: 'bottom' })) {
-                    ((/** @type {?} */ (this.element.nativeElement))).scrollIntoView(false);
-                }
-                else if (!withinviewport(this.element.nativeElement, { sides: 'left top right' })) {
+                // if (!withinviewport(this.element.nativeElement, { sides: 'bottom' })) {
+                if (!this.isElementInViewport(this.element.nativeElement)) {
+                    // (<HTMLElement>this.element.nativeElement).scrollIntoView(false);
+                    // } else if (!withinviewport(this.element.nativeElement, { sides: 'left top right' })) {
                     ((/** @type {?} */ (this.element.nativeElement))).scrollIntoView(true);
                 }
             }
@@ -491,6 +489,24 @@
             if (this.tourService.getStatus() === ngxTourCore.TourState.OFF) {
                 this.tourBackdrop.close();
             }
+        };
+        /**
+         * @private
+         * @param {?} el
+         * @return {?}
+         */
+        TourAnchorMatMenuDirective.prototype.isElementInViewport = /**
+         * @private
+         * @param {?} el
+         * @return {?}
+         */
+        function (el) {
+            /** @type {?} */
+            var rect = el.getBoundingClientRect();
+            return (rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth));
         };
         TourAnchorMatMenuDirective.decorators = [
             { type: core.Directive, args: [{

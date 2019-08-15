@@ -23,4 +23,5 @@ export declare class TourAnchorMatMenuDirective implements OnInit, OnDestroy, To
     ngOnDestroy(): void;
     showTourStep(step: IStepOption): void;
     hideTourStep(): void;
+    private isElementInViewport;
 }

@@ -3,7 +3,6 @@ import { TourService, TourState, TourHotkeyListenerComponent, TourModule } from 
 import { Router } from '@angular/router';
 import { MatMenu, MatMenuTrigger, MatMenuModule, MatCardModule, MatButtonModule, MatIconModule } from '@angular/material';
 import { CommonModule } from '@angular/common';
-import withinviewport from 'withinviewport';
 import { first } from 'rxjs/operators';
 
 /**
@@ -213,10 +212,10 @@ class TourAnchorMatMenuDirective {
         this.tourStepTemplate.templateComponent.step = step;
         // Ignore step.placement
         if (!step.preventScrolling) {
-            if (!withinviewport(this.element.nativeElement, { sides: 'bottom' })) {
-                ((/** @type {?} */ (this.element.nativeElement))).scrollIntoView(false);
-            }
-            else if (!withinviewport(this.element.nativeElement, { sides: 'left top right' })) {
+            // if (!withinviewport(this.element.nativeElement, { sides: 'bottom' })) {
+            if (!this.isElementInViewport(this.element.nativeElement)) {
+                // (<HTMLElement>this.element.nativeElement).scrollIntoView(false);
+                // } else if (!withinviewport(this.element.nativeElement, { sides: 'left top right' })) {
                 ((/** @type {?} */ (this.element.nativeElement))).scrollIntoView(true);
             }
         }
@@ -260,6 +259,19 @@ class TourAnchorMatMenuDirective {
         if (this.tourService.getStatus() === TourState.OFF) {
             this.tourBackdrop.close();
         }
+    }
+    /**
+     * @private
+     * @param {?} el
+     * @return {?}
+     */
+    isElementInViewport(el) {
+        /** @type {?} */
+        var rect = el.getBoundingClientRect();
+        return (rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth));
     }
 }
 TourAnchorMatMenuDirective.decorators = [
